@@ -13,6 +13,26 @@ use Throwable;
 
 class AuthController extends Controller
 {
+    public function get (Request $Request)
+    {
+        try {
+            // = Get Authenticated User
+            $user = $Request->user();
+
+            // : Return Bearer Token
+            return response()->json([
+                'status' => true,
+                'user' => $user
+            ]);
+        } catch (Throwable $Throwable) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Some internal error on the server has occurred.',
+                #'debug' => $Throwable->getMessage()
+            ], 500);
+        }
+    }
+
     public function register(Request $Request)
     {
         try {
@@ -48,12 +68,13 @@ class AuthController extends Controller
                 'password' => Hash::make($Request->password),
                 'role' => $Request->role
             ]);
+            // () Get Bearer Token
+            $token = $User->createToken($Request->email)->plainTextToken;
             // : Return Bearer Token
             return response()->json([
                 'status' => true,
                 'message' => 'User successfully registered',
-                'token' => $User->createToken('API TOKEN')->plainTextToken,
-                'token_type' => 'Bearer',
+                'token' => $token
             ], 200);
         } catch (Throwable $Throwable) {
             return response()->json([
@@ -139,8 +160,8 @@ class AuthController extends Controller
             // : Return Bearer Token
             return response()->json([
                 'status' => true,
-                'token' => $token,
-                'token_type' => 'Bearer',
+                'message' => 'User logged in successfully!',
+                'token' => $token
             ]);
         } catch (Throwable $Throwable) {
             return response()->json([
