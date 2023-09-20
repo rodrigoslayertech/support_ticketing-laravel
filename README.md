@@ -6,6 +6,9 @@ Implementa uma API de sistema de suporte ao cliente via ticket.
 
 Nesse repositório, o framework utilizado para desenvolver essa API foi o Laravel.
 
+O repositório do Front-end do sistema se encontra aqui:
+https://github.com/rodrigoslayertech/support_ticketing-quasar
+
 ## Pré-requisitos
 
 Para executar este projeto, foram utilizados as seguintes tecnologias e ferramentas:
