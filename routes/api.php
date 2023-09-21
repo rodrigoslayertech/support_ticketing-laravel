@@ -13,12 +13,12 @@ Route::prefix('v1')->group(function () {
     Route::post('/register', [AuthController::class, 'register']);
     Route::post('/login', [AuthController::class, 'login']);
 
+    Route::get('/files/{filename}', [FileController::class, 'show']);
+
     // ! Protected
     Route::middleware('auth:sanctum')->group(function () {
         Route::get('/auth', [AuthController::class, 'get']);
         Route::post('/logout', [AuthController::class, 'logout']);
-
-        Route::get('/files/{filename}', [FileController::class, 'show']);
 
         // Reply(s)
         Route::resource('/ticket/reply', TicketReplyController::class);
