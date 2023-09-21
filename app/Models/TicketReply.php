@@ -20,8 +20,10 @@ class TicketReply extends Model
     {
         static::created(function ($ticketReply) {
             $ticket = Ticket::find($ticketReply->ticket_id);
-            $ticket->status = 'in_progress';
-            $ticket->save();
+            if ($ticketReply->user && $ticketReply->user->role === 'Collaborator') {
+                $ticket->status = 'in_progress';
+                $ticket->save();
+            }
         });
     }
 
