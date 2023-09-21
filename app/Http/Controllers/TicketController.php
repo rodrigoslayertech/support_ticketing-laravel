@@ -15,10 +15,10 @@ class TicketController extends Controller
             $User = auth()->user();
             if ($User->role === 'Client') {
                 // () Return tickets for the logged-in client
-                $tickets = Ticket::where('user_id', $User->id)->get();
+                $tickets = Ticket::withCount('replies')::where('user_id', $User->id)->get();
             } else {
                 // () Return all users in JSON format
-                $tickets = Ticket::all();
+                $tickets = Ticket::withCount('replies')->get();
             }
             // : Return the tickets in JSON format
             return response()->json($tickets, 200);
